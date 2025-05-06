@@ -1,0 +1,58 @@
+{
+    "openai": {
+        "texts": {
+            "o3": {
+                "input": 0.00001,
+                "cached_input": 0.0000025,
+                "output": 0.00004
+            },
+            "o4-mini": {
+                "input": 0.0000011,
+                "cached_input": 0.000000275,
+                "output": 0.0000044
+            },
+            "gpt-4.1": {
+                "input": 0.000002,
+                "cached_input": 0.0000005,
+                "output": 0.000008
+            },
+            "gpt-4.1-mini": {
+                "input": 0.0000004,
+                "cached_input": 0.0000001,
+                "output": 0.0000016
+            },
+            "gpt-4.1-nano": {
+                "input": 0.0000001,
+                "cached_input": 0.000000025,
+                "output": 0.0000004
+            },
+            "gpt-4o": {
+                "input": 0.000005,
+                "cached_input": 0.0000025,
+                "output": 0.00002
+            },
+            "gpt-4o-mini": {
+                "input": 0.0000006,
+                "cached_input": 0.0000003,
+                "output": 0.0000024
+            }
+        },
+        "images": {
+            "dall-e-3": {
+                "1024x1024": {
+                    "standard": 0.04,
+                    "hd": 0.08
+                },
+                "1024x1792": {
+                    "standard": 0.08,
+                    "hd": 0.12
+                }
+            }
+        },
+        "embeddings": {
+          "text-embedding-3-small": 0.00000002,
+          "text-embedding-3-large": 0.00000013,
+          "text-embedding-ada-002": 0.00000010
+        }
+    }
+}
