@@ -4,7 +4,7 @@ VERSION = '0.0.1'
 
 # Setting up
 setup(
-    name="aicmo_clients",
+    name="aicmo",
     version=VERSION,
     author="Jayr Castro",
     author_email="jayrcastro.py@gmail.com",
