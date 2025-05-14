@@ -300,9 +300,9 @@ class AICMOClient:
                     "text": {
                         "type": "mrkdwn",
                         "text": (
-                            f"Event ID: {event['event_id']}"
-                            f"User ID: {event['user_id']}"
-                            f"{tb}"
+                            f"Event ID: {event['event_id']}\n"
+                            f"User ID: {event['user_id']}\n"
+                            f"Error:\n{tb}\n"
                         )
                     }
                 }
