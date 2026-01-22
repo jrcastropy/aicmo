@@ -23,6 +23,7 @@ class AICMOClient:
             ts_host: str=None,
             ts_port: int=None,
             ts_api_key: str=None,
+            use_openrouter: bool=True
         ) -> None:
         """
         Initialize the AICMOClient with AWS credentials and OpenAI model.
@@ -44,9 +45,15 @@ class AICMOClient:
         else:
             self.aws_s3_bucket = self.secret_dict.get('AWS_S3_BUCKET', None)
         
-        # Initialize OpenAI client
-        openai_dict = {x:self.secret_dict[y] for x,y in (("api_key", "OPENAI_API_KEY"), ("organization", "OPENAI_ORG_KEY")) if self.secret_dict.get(y, None)}
-        self.openai_client = OpenAI(**openai_dict)
+        if use_openrouter:
+            # OPENROUTER_API_KEY
+            # OPENROUTER_BASE_URL
+            openai_dict = {x:self.secret_dict[y] for x,y in (("api_key", "OPENROUTER_API_KEY"), ("base_url", "OPENROUTER_BASE_URL")) if self.secret_dict.get(y, None)}
+            self.openai_client = OpenAI(**openai_dict)
+        else:    
+            # Initialize OpenAI client
+            openai_dict = {x:self.secret_dict[y] for x,y in (("api_key", "OPENAI_API_KEY"), ("organization", "OPENAI_ORG_KEY")) if self.secret_dict.get(y, None)}
+            self.openai_client = OpenAI(**openai_dict)
 
         # Initialize ScrapingBee client
         self.SCRAPINGBEE_API_KEY = self.secret_dict.get('SCRAPINGBEE_API_KEY', None)
@@ -75,7 +82,10 @@ class AICMOClient:
             self.ts_client = None
 
         # Initialize OpenAI model
-        self.OPENAI_MODEL = self.secret_dict.get('OPENAI_MODEL', None)
+        if use_openrouter:
+            self.OPENAI_MODEL = self.secret_dict.get('OPENROUTER_MODEL', None)
+        else:
+            self.OPENAI_MODEL = self.secret_dict.get('OPENAI_MODEL', None)
 
         # Initialize Costing for per APIs
         self.COST = json.loads(self.secret_dict['COST'])
