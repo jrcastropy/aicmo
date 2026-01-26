@@ -198,25 +198,34 @@ class AICMOClient:
             self,
             data: types.chat.chat_completion.ChatCompletion,
             model: str,
-            tokens: dict
+            tokens: dict,
+            use_openrouter: bool=True
         ) -> dict:
         """
         Calculate the token usage and cost.
         """
-        prompt_tokens = data.usage.prompt_tokens
-        completion_tokens = data.usage.completion_tokens
-        cost = self.COST.get('openai', {}).get("texts", {}).get(model, {})
-        openai_input_cost = cost.get('input', None)
-        openai_output_cost = cost.get('output', None)
-        if openai_input_cost and openai_output_cost:
-            tokens['input_cost'] += prompt_tokens * openai_input_cost
-            tokens['output_cost'] += completion_tokens * openai_output_cost
-            tokens['total_cost'] = round(tokens['input_cost'] + tokens['output_cost'], 4)
-        tokens['prompt_tokens'] += prompt_tokens
-        tokens['completion_tokens'] += completion_tokens
-        tokens['total_tokens'] += prompt_tokens + completion_tokens
-        tokens['openai_input_cost'] = openai_input_cost
-        tokens['openai_output_cost'] = openai_output_cost
+        if use_openrouter:
+            tokens['total_cost'] += data.usage.cost
+            tokens['input_cost'] += data.usage.cost_details['upstream_inference_prompt_cost']
+            tokens['output_cost'] += data.usage.cost_details['upstream_inference_completions_cost']
+            tokens["prompt_tokens"] += data.usage.prompt_tokens
+            tokens["completion_tokens"] += data.usage.completion_tokens
+            tokens["total_tokens"] += data.usage.total_tokens
+        else:
+            prompt_tokens = data.usage.prompt_tokens
+            completion_tokens = data.usage.completion_tokens
+            cost = self.COST.get('openai', {}).get("texts", {}).get(model, {})
+            openai_input_cost = cost.get('input', None)
+            openai_output_cost = cost.get('output', None)
+            if openai_input_cost and openai_output_cost:
+                tokens['input_cost'] += prompt_tokens * openai_input_cost
+                tokens['output_cost'] += completion_tokens * openai_output_cost
+                tokens['total_cost'] = round(tokens['input_cost'] + tokens['output_cost'], 4)
+            tokens['prompt_tokens'] += prompt_tokens
+            tokens['completion_tokens'] += completion_tokens
+            tokens['total_tokens'] += prompt_tokens + completion_tokens
+            tokens['openai_input_cost'] = openai_input_cost
+            tokens['openai_output_cost'] = openai_output_cost
         return tokens
     
     def s3_upload_pickle(
