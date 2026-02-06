@@ -134,7 +134,6 @@ class AICMOClient:
                     tools=tools,
                     tool_choice={"type": "function", "function": {"name": tool_name}}
                 )
-                tokens = self.get_gpt_tokens(completion, model, tokens)
                 ret_val['completion'] = completion
                 ret_val['status'] = "success"
                 ret_val['tokens'] = self.get_gpt_tokens(completion, model, tokens)
