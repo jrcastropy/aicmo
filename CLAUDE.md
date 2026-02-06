@@ -4,7 +4,7 @@
 
 AICMO is a Python package providing an AI/ML toolkit for serverless-ready applications (AWS Lambda, GCP Cloud Functions). It wraps multiple services — LLM APIs, web scraping, screenshot capture, image processing, vector search, and AWS storage — into a single `AICMOClient` class.
 
-**Author**: Jayr Castro | **Version**: 0.0.4 (see `setup.py:3`) | **Python**: 3.12
+**Author**: Jayr Castro | **Version**: auto-bumped on each push to `main` (see `setup.py:3`) | **Python**: 3.12
 
 ## Tech Stack
 
@@ -31,7 +31,7 @@ aicmo/
 ├── update_secrets.py       # Syncs .env + costing.json -> AWS Secrets Manager
 ├── .env / .env.dev         # Credentials (git-ignored, never commit)
 ├── test.ipynb              # Integration test notebook (git-ignored)
-├── .github/workflows/      # CI/CD — PyPI publish on GitHub Release
+├── .github/workflows/      # CI/CD — auto version bump, release & PyPI publish on push to main
 └── todo                    # Project TODO items
 ```
 
@@ -59,7 +59,14 @@ No automated test suite. Testing is done via `test.ipynb` (Jupyter notebook with
 
 ### Publishing
 
-Automatic on GitHub Release via `.github/workflows/python-publish.yml`. Requires `PYPI_API_TOKEN` in GitHub repo secrets. To bump version, edit `setup.py:3`.
+Fully automatic on push to `main` via `.github/workflows/python-publish.yml`. The workflow:
+
+1. Bumps the patch version in `setup.py` (e.g., `0.0.5` → `0.0.6`)
+2. Commits the version bump back to `main` with `[skip ci]`
+3. Creates a GitHub Release with auto-generated notes
+4. Builds and publishes to PyPI
+
+Requires `PYPI_API_TOKEN` in GitHub repo secrets. **Do NOT manually edit the version in `setup.py`** — it is managed by the workflow.
 
 ## Key Conventions
 
