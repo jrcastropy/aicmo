@@ -23,7 +23,7 @@ class AICMOClient:
             ts_host: str=None,
             ts_port: int=None,
             ts_api_key: str=None,
-            use_openrouter: bool=True
+            use_openrouter: bool=False
         ) -> None:
         """
         Initialize the AICMOClient with AWS credentials and OpenAI model.

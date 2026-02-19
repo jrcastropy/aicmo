@@ -36,4 +36,4 @@ response = client.put_secret_value(
 )
 
 # Print the response
-# print(response)
+print(response)
